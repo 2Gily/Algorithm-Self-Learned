@@ -1,55 +1,80 @@
-//#define _CRT_SECURE_NO_WARNINGS
-#include <iostream>
+// Date	 : 2021-07-31
+// Title : ·£¼± ÀÚ¸£±â
+// BOJ	 : 1654
+// Genre : ÀÌºÐÅ½»ö
 #include <vector>
+#include <iostream>
+#include <string>
 #include <algorithm>
+#define endl "\n"
+#define MAX 10001
 using namespace std;
 
-vector<long long> v;
 int K, N;
-long long ans;
+long long max_length;
+long long lan[MAX];
 
-int binary_search() {
-	long long start = 1, end = v[v.size() - 1];
-	long long mid = 0;
+long long search_answer(void)
+{
+	long long start = 1;
+	long long end = max_length;
+	long long mid = (start + end) / 2;
+	long long result = 0;
 
-	while (start <= end) {
+	while(start <= end)
+	{	
+		long long cnt = 0;
 		mid = (start + end) / 2;
 
-		//ëžœì„  ê¸¸ì´ê°€ midì¼ ê²½ìš°
-		int cnt = 0;
-		for (int i = 0; i < K; i++) {
-			cnt += v[i] / mid;
+		for (int i = 0; i < K; i++)
+		{
+			cnt += lan[i] / mid;
 		}
 
-		//ëžœì„ ì˜ ìµœëŒ€ ê¸¸ì´ë¥¼ êµ¬í•˜ëŠ”ê²Œ ëª©í‘œ
-		if (cnt >= N) {
-			ans = max(ans, mid);
+		if (cnt < N)
+		{
+			end = mid - 1;
+		}
+		else if (cnt >= N)
+		{
+			result = max(result, mid);
 			start = mid + 1;
 		}
-		else //ìž‘ 
-			end = mid - 1;
 	}
-
-	return ans;
+	
+	return result;
 }
 
-int main() {
+void init()
+{
+	ios::sync_with_stdio(false);
+	cin.tie(0);
+	cout.tie(0);
+}
 
-	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
-
-	//freopen("input1.txt", "r", stdin);
+int main(void)
+{
+	/*
+	4 11
+	802
+	743
+	457
+	539
+	=> Á¤·Ä 457 539 743 802 ÀÌ 4°³·Î 11°³¸¦ ¸¸µé°í ½Í´Ù.
+	ÀÌ¹Ì °¡Áö°í ÀÖ´Â ·£¼±ÀÇ °³¼ö K, ±×¸®°í ÇÊ¿äÇÑ ·£¼±ÀÇ °³¼ö N (K <= N )
+	·£¼±À» ¸ðµÎ N°³ÀÇ °°Àº ±æÀÌÀÇ ·£¼±À¸·Î ¸¸µé°í ½Í¾ú±â ¶§¹®¿¡ K°³ÀÇ ·£¼±À» Àß¶ó¼­ ¸¸µé¾î¾ß ÇÑ´Ù.
+	802cm ·£¼±¿¡¼­ 4°³, 743cm ·£¼±¿¡¼­ 3°³, 457cm ·£¼±¿¡¼­ 2°³, 539cm ·£¼±¿¡¼­ 2°³¸¦ Àß¶ó³» ¸ðµÎ 11°³¸¦ ¸¸µé ¼ö ÀÖ´Ù.
+	*/
+	init();
 	cin >> K >> N;
-	for (int i = 0; i < K; i++) {
-		int x;
-		cin >> x;
-		v.push_back(x);
+
+	for (int i = 0; i < K; i++)
+	{
+		cin >> lan[i];
+		max_length = max(max_length, lan[i]);
 	}
 
-	sort(v.begin(), v.end());
-	
-	cout << binary_search() << '\n';
+	cout << search_answer() << endl;
 
 	return 0;
 }
