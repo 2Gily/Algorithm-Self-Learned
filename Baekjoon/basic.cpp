@@ -1,6 +1,5 @@
-// Date	 : 2021-08-01
+// Date	 : 2022-04-12
 // BOJ	 : 
-// Title : 
 // Genre : 
 #include <vector>
 #include <iostream>
